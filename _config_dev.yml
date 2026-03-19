@@ -1,0 +1,15 @@
+# Site Settings
+title: Aquacise
+email: aquaciseswimming@gmail.com
+description: >
+  Swimming Lessons!
+baseurl: ""
+url: "http://localhost:4000"
+twitter_username: aquacise
+github_username:  originaldogmeat
+# Build Settings
+sass:
+  sass_dir: _sass
+include: ['_pages']
+kramdown:
+  input: GFM
