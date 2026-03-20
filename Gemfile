@@ -1,5 +1,5 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.3"
-gem "jekyll-sass-converter", "~> 3.0"
+# Match https://pages.github.com/versions/ (same stack as actions/jekyll-build-pages)
+gem "github-pages", "~> 232"
 gem "webrick", "~> 1.8"
