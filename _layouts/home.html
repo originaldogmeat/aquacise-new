@@ -1,0 +1,103 @@
+---
+layout: default
+---
+
+<div class="home-page">
+	<section class="home-signup" aria-label="Registration steps">
+		<p class="home-signup__lead"><strong>To sign up for Aquacise swimming classes, please follow these steps:</strong></p>
+		<p>Create a TeamUnify account, please follow <a href="https://docs.google.com/document/d/1XFjaDEiT9JCMCYimj3BiTzWNmck4IMZE6yQOqNZzR7c/edit?usp=sharing">this guide here</a>. Sign up for a class, please follow <a href="https://docs.google.com/document/d/1_Zmcjn3UoVKf5GQ8XzN-AuFWzdTLKlFbfLRd_xxaQZk/edit?usp=sharing">this guide here</a>.</p>
+		<p><strong>To register for USA Swimming, please follow</strong> <a href="https://docs.google.com/document/d/1jMB96no1kwb9IMzI_UjkWVV9IlusXa8kgwdsrTKD-xw/edit?usp=sharing">this guide here</a>.</p>
+	</section>
+
+	<section class="home-carousel" aria-label="Photo slideshow" data-interval="20000">
+		<div class="home-carousel__viewport">
+			{% assign slides = site.data.carousel_images %}
+			{% for s in slides %}
+			<div class="home-carousel__slide{% if forloop.first %} is-active{% endif %}">
+				<img src="{{ s.src | prepend: site.baseurl }}" alt="{{ s.alt | xml_escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" />
+			</div>
+			{% endfor %}
+		</div>
+		<div class="home-carousel__dots" aria-hidden="true">
+			{% for s in slides %}
+			<button type="button" class="home-carousel__dot{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}" tabindex="-1"></button>
+			{% endfor %}
+		</div>
+	</section>
+
+	<section class="home-announcements" aria-labelledby="home-announcements-heading">
+		<h2 id="home-announcements-heading" class="home-section-heading">Latest Announcements</h2>
+		<div class="announcement-list">
+			{% for item in site.data.announcements limit:5 %}
+			<article class="announcement-item">
+				<div class="announcement-item__media">
+					{% if item.image and item.image != "" %}
+					<img src="{{ item.image | prepend: site.baseurl }}" alt="{{ item.title | xml_escape }}" class="announcement-item__img" loading="lazy" />
+					{% endif %}
+				</div>
+				<div class="announcement-item__body">
+					<div class="announcement-item__meta">
+						<span class="announcement-item__author">{{ item.author }}</span>
+						<time datetime="{{ item.date }}">{{ item.date | date: "%B %e, %Y" }}</time>
+					</div>
+					<h3 class="announcement-item__title">{{ item.title }}</h3>
+					<p class="announcement-item__excerpt">{{ item.excerpt }}</p>
+				</div>
+			</article>
+			{% endfor %}
+		</div>
+		<p class="home-announcements__footer">
+			<a class="home-more-link" href="{{ '/announcements/' | prepend: site.baseurl }}">More News</a>
+		</p>
+	</section>
+
+	<section class="home-events" aria-labelledby="home-events-heading">
+		<h2 id="home-events-heading" class="home-section-heading">Upcoming Events</h2>
+		<ul class="upcoming-events-list">
+			{% for ev in site.data.upcoming_events %}
+			<li class="upcoming-event">
+				<div class="upcoming-event__dates">
+					{% if ev.end_date and ev.end_date != ev.date %}
+					<time datetime="{{ ev.date }}">{{ ev.date | date: "%b %e" }}</time>
+					<span class="upcoming-event__sep">–</span>
+					<time datetime="{{ ev.end_date }}">{{ ev.end_date | date: "%b %e, %Y" }}</time>
+					{% else %}
+					<time datetime="{{ ev.date }}">{{ ev.date | date: "%B %e, %Y" }}</time>
+					{% endif %}
+				</div>
+				<div class="upcoming-event__body">
+					{% if ev.url %}<a href="{{ ev.url }}" class="upcoming-event__title">{{ ev.title }}</a>{% else %}<span class="upcoming-event__title">{{ ev.title }}</span>{% endif %}
+					{% if ev.detail %}<p class="upcoming-event__detail">{{ ev.detail }}</p>{% endif %}
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+		<p class="home-events__footer">
+			<a class="home-more-link" href="{{ '/events/' | prepend: site.baseurl }}">More Events</a>
+		</p>
+	</section>
+</div>
+
+<script>
+(function () {
+	var root = document.querySelector('.home-carousel');
+	if (!root) return;
+	var slides = root.querySelectorAll('.home-carousel__slide');
+	var dots = root.querySelectorAll('.home-carousel__dot');
+	var n = slides.length;
+	if (n < 2) return;
+	var i = 0;
+	var ms = parseInt(root.getAttribute('data-interval'), 10) || 20000;
+	function go(idx) {
+		slides[i].classList.remove('is-active');
+		if (dots[i]) dots[i].classList.remove('is-active');
+		i = ((idx % n) + n) % n;
+		slides[i].classList.add('is-active');
+		if (dots[i]) dots[i].classList.add('is-active');
+	}
+	dots.forEach(function (d, di) {
+		d.addEventListener('click', function () { go(di); });
+	});
+	setInterval(function () { go(i + 1); }, ms);
+})();
+</script>

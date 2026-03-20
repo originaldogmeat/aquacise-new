@@ -50,6 +50,40 @@ main {
 	padding: 0 15px;
 	max-width: $content-width;
 	margin: 0 auto;
+	article {
+		img.content-image {
+			max-width: 100%;
+			height: auto;
+			display: block;
+			margin: 0.75em 0 1.25em;
+			border-radius: 4px;
+		}
+		img.content-image--portrait {
+			max-width: 240px;
+		}
+		.instructor-lead {
+			overflow: auto;
+			margin-bottom: 0.5em;
+			img.content-image--portrait {
+				float: left;
+				max-width: 200px;
+				margin: 0 1.25em 0.75em 0;
+			}
+			p {
+				margin: 0 0 1em;
+			}
+		}
+		blockquote {
+			clear: both;
+			margin: 0 0 1em;
+			padding: 0;
+			border: none;
+			font-style: italic;
+			p {
+				margin: 0;
+			}
+		}
+	}
 }
 time {
 	color: #898989;
@@ -96,6 +130,48 @@ aside {
 						color: $main;
 					}
 				}
+				&.nav-dropdown {
+					.nav-dropdown-label {
+						display: block;
+						padding: 15px;
+						font-family: 'Muli', sans-serif;
+						line-height: 20px;
+						margin-bottom: -1px;
+						color: $link-color;
+						font-weight: bold;
+						cursor: default;
+					}
+					&:hover .nav-dropdown-label,
+					&:focus-within .nav-dropdown-label {
+						background: $header;
+						color: $main;
+					}
+					ul.nav-dropdown-menu {
+						display: none;
+						position: absolute;
+						top: 100%;
+						left: 0;
+						min-width: 12em;
+						margin: 0;
+						padding: 0;
+						list-style: none;
+						background: #fff;
+						border: 1px solid lighten($light, 30%);
+						box-shadow: 0 4px 8px RGBA(4, 25, 54, 0.15);
+						z-index: 10;
+						li {
+							float: none;
+							width: 100%;
+							a {
+								white-space: nowrap;
+							}
+						}
+					}
+					&:hover ul.nav-dropdown-menu,
+					&:focus-within ul.nav-dropdown-menu {
+						display: block;
+					}
+				}
 			}
 		}
 		&:after {
@@ -105,6 +181,383 @@ aside {
 		}
 	}
 }
+/* Homepage (GoMotion-style) */
+.home-page {
+	.home-signup {
+		text-align: justify;
+		margin-bottom: 1.5rem;
+		padding: 0 0 0.5rem;
+		.home-signup__lead {
+			font-size: 1.15em;
+			margin-top: 0;
+		}
+		p {
+			margin: 0.75em 0;
+			font-size: 1.05em;
+		}
+	}
+	.home-section-heading {
+		font-size: 1.75em;
+		margin: 2rem 0 1rem;
+		color: $heading-font-color;
+		font-family: $heading-font;
+		font-weight: 600;
+	}
+	.home-carousel {
+		position: relative;
+		display: block;
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 1.75rem;
+		max-width: 100%;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+		/* Absolute stacking (Chrome-safe): fixed-height box + position:absolute slides */
+		&__viewport {
+			position: relative;
+			width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			height: 336px;
+			background: $header;
+			overflow: hidden;
+		}
+		&__slide {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			opacity: 0;
+			z-index: 0;
+			transition: opacity 1s ease-in-out;
+			pointer-events: none;
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+			&.is-active {
+				opacity: 1;
+				z-index: 1;
+			}
+			img {
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center;
+				display: block;
+			}
+		}
+		&__dots {
+			position: absolute;
+			bottom: 12px;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 10;
+			display: flex;
+			gap: 8px;
+		}
+		&__dot {
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			border: none;
+			padding: 0;
+			background: rgba(255, 255, 255, 0.45);
+			cursor: pointer;
+			&.is-active {
+				background: $main;
+			}
+		}
+	}
+	@media (max-width: 640px) {
+		.home-carousel__viewport {
+			height: 264px;
+		}
+	}
+	.home-announcements {
+		margin-bottom: 0.5rem;
+		.announcement-item {
+			flex-direction: row;
+		}
+	}
+	.home-announcements__footer,
+	.home-events__footer {
+		text-align: center;
+		margin: 1.25rem 0 0;
+	}
+	.home-more-link {
+		display: inline-block;
+		padding: 0.5rem 1.5rem;
+		background: lighten($link-color, 45%);
+		color: $link-color !important;
+		text-decoration: none !important;
+		border-radius: 4px;
+		font-weight: bold;
+		font-family: $heading-font;
+		&:hover {
+			background: $main;
+			color: $header !important;
+		}
+	}
+	.home-events {
+		margin-top: 0.5rem;
+		padding-bottom: 1rem;
+	}
+	.upcoming-events-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.upcoming-event {
+		display: flex;
+		gap: 1.25rem;
+		align-items: flex-start;
+		padding: 1rem 0;
+		border-bottom: 1px solid lighten($light, 12%);
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+	.upcoming-event__dates {
+		flex: 0 0 11rem;
+		font-family: $heading-font;
+		font-weight: 600;
+		color: $heading-font-color;
+		font-size: 0.95em;
+		margin: 0;
+	}
+	.upcoming-event__sep {
+		margin: 0 0.2em;
+		color: #888;
+	}
+	.upcoming-event__body {
+		flex: 1;
+		min-width: 0;
+	}
+	.upcoming-event__title {
+		font-size: 1.1em;
+		font-weight: bold;
+		color: $link-color;
+		text-decoration: none;
+		&:hover {
+			color: $main;
+		}
+	}
+	span.upcoming-event__title {
+		color: $heading-font-color;
+	}
+	.upcoming-event__detail {
+		margin: 0.35rem 0 0;
+		font-weight: normal;
+		color: $font-color;
+	}
+	@media (max-width: 640px) {
+		.upcoming-event {
+			flex-direction: column;
+			gap: 0.35rem;
+		}
+		.upcoming-event__dates {
+			flex: none;
+		}
+	}
+}
+
+/* Announcements (GoMotion-style list) */
+.announcements-page {
+	.announcements-source {
+		font-size: 0.95em;
+		margin: 0 0 1.75rem;
+		color: lighten($font-color, 12%);
+		a {
+			font-weight: bold;
+		}
+	}
+	.announcement-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+	.announcement-item {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 1.25rem;
+		padding: 1.5rem 0;
+		border-bottom: 1px solid lighten($light, 12%);
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+	.announcement-item__media {
+		flex: 0 0 240px;
+		max-width: 40%;
+	}
+	.announcement-item__img {
+		width: 100%;
+		height: auto;
+		display: block;
+		border-radius: 4px;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+		object-fit: cover;
+	}
+	.announcement-item__body {
+		flex: 1;
+		min-width: 0;
+	}
+	.announcement-item__meta {
+		font-size: 0.9em;
+		color: #666;
+		margin-bottom: 0.35rem;
+		font-family: $heading-font;
+		time {
+			margin-left: 0.5rem;
+		}
+	}
+	.announcement-item__title {
+		font-size: 1.2em;
+		margin: 0 0 0.5rem;
+		color: $heading-font-color;
+		font-weight: 600;
+		line-height: 1.35;
+	}
+	.announcement-item__excerpt {
+		margin: 0;
+		color: $font-color;
+		font-weight: normal;
+		text-align: left;
+	}
+	@media (max-width: 640px) {
+		.announcement-item {
+			flex-direction: column;
+		}
+		.announcement-item__media {
+			flex: none;
+			max-width: 280px;
+			width: 100%;
+		}
+	}
+}
+
+/* Team events (GoMotion Team Events tab mirror) */
+.events-page {
+	.events-source {
+		font-size: 0.95em;
+		margin: 0 0 0.75rem;
+		color: lighten($font-color, 12%);
+		a {
+			font-weight: bold;
+		}
+	}
+	.events-synced {
+		font-size: 0.88em;
+		color: #666;
+		margin: 0 0 1.75rem;
+	}
+	.events-section {
+		margin: 2rem 0 2.5rem;
+		&:first-of-type {
+			margin-top: 0.5rem;
+		}
+	}
+	.events-section__title {
+		font-size: 1.35em;
+		margin: 0 0 1rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 2px solid lighten($main, 35%);
+		color: $heading-font-color;
+		font-family: $heading-font;
+	}
+	.events-empty {
+		color: lighten($font-color, 8%);
+		margin: 0;
+	}
+	.team-event-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+	.team-event-card {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 1.25rem;
+		padding: 1.5rem 0;
+		border-bottom: 1px solid lighten($light, 12%);
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+	.team-event-card__dates {
+		flex: 0 0 12rem;
+		font-family: $heading-font;
+		font-weight: 600;
+		color: $heading-font-color;
+		font-size: 0.95em;
+		line-height: 1.4;
+	}
+	.team-event-card__sep {
+		margin: 0 0.2em;
+		color: #888;
+	}
+	.team-event-card__body {
+		flex: 1;
+		min-width: 0;
+	}
+	.team-event-card__title {
+		font-size: 1.15em;
+		margin: 0 0 0.5rem;
+		line-height: 1.35;
+		a {
+			color: $link-color;
+			text-decoration: none;
+			font-weight: 600;
+			&:hover {
+				color: $main;
+			}
+		}
+	}
+	.team-event-card__location {
+		margin: 0 0 0.65rem;
+		font-size: 0.95em;
+		color: $font-color;
+	}
+	.team-event-card__description {
+		margin: 0 0 0.75rem;
+		font-size: 0.95em;
+		color: $font-color;
+		line-height: 1.5;
+		p {
+			margin: 0.35rem 0;
+		}
+	}
+	.team-event-card__link {
+		margin: 0;
+		font-size: 0.9em;
+		a {
+			font-weight: bold;
+		}
+	}
+	@media (max-width: 640px) {
+		.team-event-card {
+			flex-direction: column;
+			gap: 0.35rem;
+		}
+		.team-event-card__dates {
+			flex: none;
+		}
+	}
+}
+
 footer {
 	text-align: center;
 	padding: 40px;

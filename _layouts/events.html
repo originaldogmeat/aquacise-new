@@ -1,0 +1,86 @@
+---
+layout: default
+---
+
+{% assign te = site.data.team_events %}
+<div class="events-page">
+	<h2>{{ page.title }}</h2>
+	<p class="events-source">
+		Team events from
+		<a href="https://www.gomotionapp.com/team/waaqua/page/calendar#/team-events/upcoming">Aquacise Swimming — Calendar (Team Events)</a>
+		(GoMotion). General calendar items and practices are not listed here.
+	</p>
+	{% if te.synced_at_display %}
+	<p class="events-synced">Last synced: <time datetime="{{ te.synced_at }}">{{ te.synced_at_display }}</time></p>
+	{% endif %}
+
+	<section class="events-section" aria-labelledby="events-upcoming-heading">
+		<h3 id="events-upcoming-heading" class="events-section__title">Current &amp; upcoming</h3>
+		{% if te.upcoming == nil or te.upcoming.size == 0 %}
+		<p class="events-empty">No upcoming team events right now.</p>
+		{% else %}
+		<div class="team-event-list">
+			{% for ev in te.upcoming %}
+			<article class="team-event-card">
+				<div class="team-event-card__dates">
+					{% assign sd = ev.start | date: "%Y-%m-%d" %}
+					{% assign ed = ev.end | date: "%Y-%m-%d" %}
+					{% if sd == ed %}
+					<time datetime="{{ ev.start }}">{{ ev.start | date: "%B %e, %Y" }}</time>
+					{% else %}
+					<time datetime="{{ ev.start }}">{{ ev.start | date: "%b %e, %Y" }}</time>
+					<span class="team-event-card__sep">–</span>
+					<time datetime="{{ ev.end }}">{{ ev.end | date: "%b %e, %Y" }}</time>
+					{% endif %}
+				</div>
+				<div class="team-event-card__body">
+					<h4 class="team-event-card__title"><a href="{{ ev.gomotion_url }}">{{ ev.title }}</a></h4>
+					{% if ev.location != "" %}
+					<p class="team-event-card__location">{{ ev.location }}</p>
+					{% endif %}
+					{% if ev.description_html != "" %}
+					<div class="team-event-card__description">{{ ev.description_html }}</div>
+					{% endif %}
+					<p class="team-event-card__link"><a href="{{ ev.gomotion_url }}">View on GoMotion calendar</a></p>
+				</div>
+			</article>
+			{% endfor %}
+		</div>
+		{% endif %}
+	</section>
+
+	<section class="events-section" aria-labelledby="events-past-heading">
+		<h3 id="events-past-heading" class="events-section__title">Past &amp; archived</h3>
+		{% if te.past == nil or te.past.size == 0 %}
+		<p class="events-empty">No past team events in the selected range.</p>
+		{% else %}
+		<div class="team-event-list">
+			{% for ev in te.past %}
+			<article class="team-event-card">
+				<div class="team-event-card__dates">
+					{% assign sd = ev.start | date: "%Y-%m-%d" %}
+					{% assign ed = ev.end | date: "%Y-%m-%d" %}
+					{% if sd == ed %}
+					<time datetime="{{ ev.start }}">{{ ev.start | date: "%B %e, %Y" }}</time>
+					{% else %}
+					<time datetime="{{ ev.start }}">{{ ev.start | date: "%b %e, %Y" }}</time>
+					<span class="team-event-card__sep">–</span>
+					<time datetime="{{ ev.end }}">{{ ev.end | date: "%b %e, %Y" }}</time>
+					{% endif %}
+				</div>
+				<div class="team-event-card__body">
+					<h4 class="team-event-card__title"><a href="{{ ev.gomotion_url }}">{{ ev.title }}</a></h4>
+					{% if ev.location != "" %}
+					<p class="team-event-card__location">{{ ev.location }}</p>
+					{% endif %}
+					{% if ev.description_html != "" %}
+					<div class="team-event-card__description">{{ ev.description_html }}</div>
+					{% endif %}
+					<p class="team-event-card__link"><a href="{{ ev.gomotion_url }}">View on GoMotion calendar</a></p>
+				</div>
+			</article>
+			{% endfor %}
+		</div>
+		{% endif %}
+	</section>
+</div>

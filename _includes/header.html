@@ -1,14 +1,19 @@
 <aside>
 	<div class="container">
 		<nav>
-			<ul>
-                <li><a href="{{ "/" | prepend: site.baseurl }}">Home</a></li>
-                {% for page in site.pages %} {% if page.title %}
-				<li><a href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a></li>
-				{% endif %} {% endfor %}
+			<ul class="site-nav">
+				<li><a href="{{ "/" | prepend: site.baseurl }}">Home</a></li>
+				<li class="nav-dropdown">
+					<span class="nav-dropdown-label" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">About</span>
+					<ul class="nav-dropdown-menu">
+						<li><a href="{{ "/instructor/" | prepend: site.baseurl }}">Instructor</a></li>
+						<li><a href="{{ "/facilities/" | prepend: site.baseurl }}">Facilities</a></li>
+					</ul>
+				</li>
+				<li><a href="{{ "/announcements/" | prepend: site.baseurl }}">Announcements</a></li>
+				<li><a href="{{ "/events/" | prepend: site.baseurl }}">Events</a></li>
+				<li><a href="{{ "/contact/" | prepend: site.baseurl }}">Contact</a></li>
 				<li><a href="{{ "/blog" | prepend: site.baseurl }}">Blog</a></li>
-			</ul>
-			</li>
 			</ul>
 		</nav>
 	</div>
@@ -18,4 +23,3 @@
 	<!--<h1><a href="{{ site.baseurl }}">{{ site.title }}</a></h1>-->
     <h1>{{ site.title }}</h1>
 </header>
- 

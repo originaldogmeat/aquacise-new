@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+<div class="announcements-page">
+	<h2>{{ page.title }}</h2>
+	<p class="announcements-source">Items from <a href="https://www.gomotionapp.com/team/waaqua/page/news">Aquacise Swimming — News</a> (GoMotion).</p>
+
+	<div class="announcement-list">
+		{% for item in site.data.announcements %}
+		<article class="announcement-item">
+			<div class="announcement-item__media">
+				{% if item.image and item.image != "" %}
+				<img src="{{ item.image | prepend: site.baseurl }}" alt="{{ item.title | xml_escape }}" class="announcement-item__img" loading="lazy" width="480" height="360" />
+				{% endif %}
+			</div>
+			<div class="announcement-item__body">
+				<div class="announcement-item__meta">
+					<span class="announcement-item__author">{{ item.author }}</span>
+					<time datetime="{{ item.date }}">{{ item.date | date: "%B %e, %Y" }}</time>
+				</div>
+				<h3 class="announcement-item__title">{{ item.title }}</h3>
+				<p class="announcement-item__excerpt">{{ item.excerpt }}</p>
+			</div>
+		</article>
+		{% endfor %}
+	</div>
+</div>

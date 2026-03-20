@@ -3,8 +3,9 @@ title: Aquacise
 email: aquaciseswimming@gmail.com
 description: >
   Aquacise Lessons !
-baseurl: "/aquacise"
-url: "http://originaldogmeat.github.io"
+# Project site: https://originaldogmeat.github.io/aquacise-new/
+baseurl: "/aquacise-new"
+url: "https://originaldogmeat.github.io"
 twitter_username: 
 github_username:  originaldogmeat
 # Build Settings
@@ -13,3 +14,4 @@ sass:
 include: ['_pages']
 kramdown:
   input: GFM
+  parse_block_html: true
