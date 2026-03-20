@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Book Private Lesson
+title: Book Private Lessons
 permalink: /book-private-lesson/
 ---
 
