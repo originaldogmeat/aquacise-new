@@ -245,7 +245,6 @@ def render_static_events_html(repo_root: str, data: dict[str, Any]) -> None:
 \t\t\t\t<li><a href="/announcements/">Announcements</a></li>
 \t\t\t\t<li><a href="/events/">Events</a></li>
 \t\t\t\t<li><a href="/contact/">Contact</a></li>
-\t\t\t\t<li><a href="/blog">Blog</a></li>
 \t\t\t</ul>
 \t\t</nav>
 \t</div>
