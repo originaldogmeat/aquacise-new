@@ -53,3 +53,13 @@ python3 scripts/sync_team_events.py
 ```
 
 Commit `_data/team_events.json`, then push (GitHub Actions will rebuild the site).
+
+## Private lesson booking (`/book-private-lesson/`)
+
+GitHub Pages is static, so **bookings are stored in [Supabase](https://supabase.com)** (free). You still **configure which times can appear** in **`_data/private_lesson_booking.yml`** (weekdays, hours, slot length, closed dates).
+
+1. Follow **`docs/booking-supabase-setup.md`** to create the `bookings` table and RLS policies.
+2. Put **Project URL** and **anon key** in **`_config.yml`** under `booking:` and push.
+3. View or **export CSV** from the Supabase **Table Editor** → `bookings`.
+
+The calendar only offers the **next 14 days** and marks slots **booked** after a successful save.

@@ -1,0 +1,16 @@
+# Private lesson schedule — used by the booking calendar (next 14 days only).
+# Weekdays follow Luxon/ISO: 1 = Monday … 7 = Sunday
+timezone: "America/Los_Angeles"
+slot_duration_minutes: 30
+
+# Which weekdays offer private-lesson slots
+weekdays: [1, 2, 3, 4, 5]
+
+# First slot start and last slot end (same clock time each open day), 24h "HH:MM"
+daily_start: "09:00"
+daily_end: "17:00"
+
+# No lessons on these calendar dates (YYYY-MM-DD)
+closed_dates:
+  - "2026-12-25"
+  - "2027-01-01"

@@ -1,0 +1,42 @@
+---
+layout: default
+---
+
+<div class="booking-page">
+	<div class="booking-page__intro">
+		{{ content }}
+	</div>
+
+	<div id="booking-app" class="booking-app" hidden>
+		<h3 class="booking-app__heading">Available times — next 14 days</h3>
+		<p class="booking-app__hint">Times shown in <span id="booking-tz-label"></span>. Booked slots are marked and cannot be selected.</p>
+		<div id="booking-calendar" class="booking-calendar" role="region" aria-label="Available lesson times"></div>
+	</div>
+
+	<div id="booking-unconfigured" class="booking-unconfigured" hidden>
+		<p><strong>Online booking is not connected yet.</strong> Add your Supabase project URL and anon key in <code class="booking-code">_config.yml</code> under <code class="booking-code">booking:</code>, then redeploy. See <code class="booking-code">docs/booking-supabase-setup.md</code>.</p>
+		<p>Until then, email <a href="mailto:{{ site.email }}">{{ site.email }}</a> to schedule.</p>
+	</div>
+
+	<p id="booking-error" class="booking-error" role="alert" hidden></p>
+</div>
+
+<dialog id="booking-modal" class="booking-modal" aria-labelledby="booking-modal-title">
+	<form method="dialog" id="booking-modal-form" class="booking-modal__form">
+		<h3 id="booking-modal-title" class="booking-modal__title">Confirm booking</h3>
+		<p class="booking-modal__slot" id="booking-modal-slot"></p>
+		<label class="booking-modal__label">Name <input type="text" name="name" required autocomplete="name" class="booking-modal__input" /></label>
+		<label class="booking-modal__label">Email <input type="email" name="email" required autocomplete="email" class="booking-modal__input" /></label>
+		<label class="booking-modal__label">Phone <span class="booking-optional">(optional)</span> <input type="tel" name="phone" autocomplete="tel" class="booking-modal__input" /></label>
+		<div class="booking-modal__actions">
+			<button type="button" class="booking-btn booking-btn--ghost" id="booking-modal-cancel">Cancel</button>
+			<button type="submit" class="booking-btn booking-btn--primary" id="booking-modal-submit">Book this time</button>
+		</div>
+		<p id="booking-modal-status" class="booking-modal__status" role="status" aria-live="polite"></p>
+	</form>
+</dialog>
+
+<script id="booking-rules-json" type="application/json">{{ site.data.private_lesson_booking | jsonify }}</script>
+<script id="booking-backend-json" type="application/json">{{ site.booking | jsonify }}</script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+<script src="{{ '/assets/js/booking-app.js' | prepend: site.baseurl }}" defer></script>
