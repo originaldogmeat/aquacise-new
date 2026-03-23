@@ -10,9 +10,10 @@ twitter_username:
 github_username:  originaldogmeat
 
 # Booking backend (Supabase). Anon key is public by design; lock down with RLS — see docs/booking-supabase-setup.md
+# Use Project Settings → API: Project URL + anon (JWT, usually starts with eyJ…). If API calls fail with 401, copy the legacy anon JWT, not only the new publishable key.
 booking:
-  supabase_url: ""
-  supabase_anon_key: ""
+  supabase_url: "https://zptjctewgzktagkdcugi.supabase.co"
+  supabase_anon_key: "sb_publishable_otImHsT1ehrx1kB916a2dw_YIx42awY"
 
 # Build Settings
 sass:
@@ -21,6 +22,3 @@ include: ['_pages']
 kramdown:
   input: GFM
   parse_block_html: true
-  booking:
-  supabase_url: "https://zptjctewgzktagkdcugi.supabase.co"
-  supabase_anon_key: "sb_publishable_otImHsT1ehrx1kB916a2dw_YIx42awY"

@@ -43,13 +43,15 @@ create policy "bookings_select_anon" on public.bookings
    - **Project URL** → copy (e.g. `https://abcdefgh.supabase.co`).
    - **anon public** key → copy (long JWT).
 
-2. In this repo, edit **`_config.yml`**:
+2. In this repo, edit **`_config.yml`** — the `booking:` block must be at the **top level** (not nested under `sass` or `kramdown`). Example:
 
 ```yaml
 booking:
   supabase_url: "https://YOUR-PROJECT.supabase.co"
   supabase_anon_key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...."
 ```
+
+Use the **anon public** JWT from **Settings → API** (usually starts with `eyJ`). If booking requests return **401**, try that JWT instead of a newer “publishable” key — PostgREST expects the anon JWT for `apikey` / `Authorization` headers.
 
 3. Commit and push. GitHub Actions will rebuild the site.
 

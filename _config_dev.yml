@@ -8,9 +8,7 @@ url: "http://localhost:4000"
 twitter_username: aquacise
 github_username:  originaldogmeat
 
-booking:
-  supabase_url: ""
-  supabase_anon_key: ""
+# Do not set booking: here — it would override _config.yml and clear Supabase keys when using both configs.
 
 # Build Settings
 sass:
