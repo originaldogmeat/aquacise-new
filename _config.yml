@@ -8,6 +8,12 @@ baseurl: "/aquacise-new"
 url: "https://originaldogmeat.github.io"
 twitter_username: 
 github_username:  originaldogmeat
+
+# Booking backend (Supabase). Anon key is public by design; lock down with RLS — see docs/booking-supabase-setup.md
+booking:
+  supabase_url: ""
+  supabase_anon_key: ""
+
 # Build Settings
 sass:
   sass_dir: _sass
