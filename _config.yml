@@ -15,3 +15,6 @@ include: ['_pages']
 kramdown:
   input: GFM
   parse_block_html: true
+  booking:
+  supabase_url: "https://zptjctewgzktagkdcugi.supabase.co"
+  supabase_anon_key: "sb_publishable_otImHsT1ehrx1kB916a2dw_YIx42awY"
