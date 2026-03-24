@@ -1,16 +1,31 @@
-# Private lesson schedule — used by the booking calendar (next 14 days only).
-# Weekdays follow Luxon/ISO: 1 = Monday … 7 = Sunday
+# =============================================================================
+# Private lesson AVAILABILITY — edit, commit, push (next 14 days; see booking-app.js)
+# Weekdays: 1 = Monday … 7 = Sunday (Luxon/ISO). Monday = no entry = closed.
+# =============================================================================
+
 timezone: "America/Los_Angeles"
 slot_duration_minutes: 30
 
-# Which weekdays offer private-lesson slots
-weekdays: [1, 2, 3, 4, 5, 6, 7]
+# When non-empty, ONLY these days/windows are used (weekdays / daily_* ignored).
+weekday_hours:
+  # Tuesday–Friday: 5:00 PM – 7:00 PM
+  "2": { start: "17:00", end: "19:00" }
+  "3": { start: "17:00", end: "19:00" }
+  "4": { start: "17:00", end: "19:00" }
+  "5": { start: "17:00", end: "19:00" }
+  # Saturday & Sunday: 9:00 AM – 12:00 PM and 4:00 PM – 7:00 PM
+  "6":
+    - { start: "09:00", end: "12:00" }
+    - { start: "16:00", end: "19:00" }
+  "7":
+    - { start: "09:00", end: "12:00" }
+    - { start: "16:00", end: "19:00" }
 
-# First slot start and last slot end (same clock time each open day), 24h "HH:MM"
-daily_start: "09:00"
-daily_end: "17:00"
+# Unused when weekday_hours is set (kept for documentation / fallback if you clear weekday_hours)
+weekdays: [2, 3, 4, 5, 6, 7]
+daily_start: "17:00"
+daily_end: "19:00"
 
-# No lessons on these calendar dates (YYYY-MM-DD)
 closed_dates:
   - "2026-12-25"
   - "2027-01-01"

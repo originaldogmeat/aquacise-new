@@ -59,17 +59,50 @@ The **anon** key is expected to be in the built HTML; security comes from **RLS*
 
 ## 4. Configure available times (no database)
 
-Edit **`_data/private_lesson_booking.yml`** in GitHub or locally:
+Edit **`_data/private_lesson_booking.yml`** in GitHub or locally, then commit and push.
 
-- `timezone` — e.g. `America/Los_Angeles`
-- `weekdays` — `1` = Monday … `7` = Sunday (Luxon/ISO)
-- `daily_start` / `daily_end` — `HH:MM` on each open weekday
-- `slot_duration_minutes` — length of each slot
-- `closed_dates` — `YYYY-MM-DD` with no lessons
+### Simple schedule (same window on each open day)
 
-The calendar only shows the **next 14 days** (enforced in `assets/js/booking-app.js`).
+- **`timezone`** — e.g. `America/Los_Angeles`
+- **`weekdays`** — list of weekday numbers: `1` = Monday … `7` = Sunday. Example: only Tue & Thu → `[2, 4]`.
+- **`daily_start` / `daily_end`** — clock times `HH:MM` for the **first possible start** and **end of the last slot** on each open day. Example: only 3–6 PM → `daily_start: "15:00"`, `daily_end: "18:00"`.
+- **`slot_duration_minutes`** — length of each bookable block (e.g. `30`).
+- **`closed_dates`** — list of `YYYY-MM-DD` dates with **no** slots (holidays, etc.).
 
-Push changes to update the schedule.
+### Different hours per weekday (optional)
+
+If you set **`weekday_hours`** to a non-empty map, **only** those days and hours are used; **`weekdays`**, **`daily_start`**, and **`daily_end`** are ignored for generation.
+
+One window per day:
+
+```yaml
+weekday_hours:
+  "1": { start: "09:00", end: "12:00" }   # Monday
+  "3": { start: "14:00", end: "17:00" }   # Wednesday
+```
+
+Several windows on the same day (e.g. Sat morning + evening):
+
+```yaml
+weekday_hours:
+  "6":
+    - { start: "09:00", end: "12:00" }
+    - { start: "16:00", end: "19:00" }
+```
+
+Days not listed get **no** slots.
+
+### Hide specific slots (optional)
+
+**`blocked_slot_starts`** — list of exact slot **start** times to remove (local timezone, format `YYYY-MM-DD HH:mm`):
+
+```yaml
+blocked_slot_starts:
+  - "2026-03-25 15:00"
+  - "2026-03-25 15:30"
+```
+
+The calendar only lists the **next 14 days** (see `assets/js/booking-app.js`).
 
 ## 5. View and export bookings (“file you can access”)
 

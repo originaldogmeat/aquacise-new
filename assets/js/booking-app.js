@@ -23,14 +23,47 @@
 		return { h: parseInt(p[0], 10) || 0, m: parseInt(p[1], 10) || 0 };
 	}
 
+	function normalizeDayWindows(wh) {
+		if (!wh) return [];
+		if (Array.isArray(wh)) return wh;
+		if (wh.start && wh.end) return [wh];
+		return [];
+	}
+
+	function pushSlotsInRange(slots, d, duration, ds, de, now, blockedStarts) {
+		var dayStart = d.set({ hour: ds.h, minute: ds.m, second: 0, millisecond: 0 });
+		var dayEndLimit = d.set({ hour: de.h, minute: de.m, second: 0, millisecond: 0 });
+		var t = dayStart;
+		while (t < dayEndLimit) {
+			var slotEnd = t.plus({ minutes: duration });
+			if (slotEnd > dayEndLimit) break;
+			if (t > now) {
+				var startKey = t.toFormat("yyyy-MM-dd HH:mm");
+				if (!blockedStarts.has(startKey)) {
+					slots.push({ start: t, end: slotEnd });
+				}
+			}
+			t = slotEnd;
+		}
+	}
+
 	function generateSlots(rules) {
 		if (!DateTime) return [];
 		var tz = rules.timezone || "America/Los_Angeles";
 		var duration = rules.slot_duration_minutes || 30;
 		var weekdays = new Set(rules.weekdays || [1, 2, 3, 4, 5]);
 		var closed = new Set(rules.closed_dates || []);
-		var ds = parseHm(rules.daily_start || "09:00");
-		var de = parseHm(rules.daily_end || "17:00");
+		var defaultStart = parseHm(rules.daily_start || "09:00");
+		var defaultEnd = parseHm(rules.daily_end || "17:00");
+
+		var weekdayHours = rules.weekday_hours;
+		var useWeekdayHours =
+			weekdayHours &&
+			typeof weekdayHours === "object" &&
+			!Array.isArray(weekdayHours) &&
+			Object.keys(weekdayHours).length > 0;
+
+		var blockedStarts = new Set(rules.blocked_slot_starts || []);
 
 		var now = DateTime.now().setZone(tz);
 		var day0 = now.startOf("day");
@@ -40,18 +73,23 @@
 			var d = day0.plus({ days: i });
 			var ymd = d.toFormat("yyyy-MM-dd");
 			if (closed.has(ymd)) continue;
-			if (!weekdays.has(d.weekday)) continue;
 
-			var dayStart = d.set({ hour: ds.h, minute: ds.m, second: 0, millisecond: 0 });
-			var dayEndLimit = d.set({ hour: de.h, minute: de.m, second: 0, millisecond: 0 });
-			var t = dayStart;
-			while (t < dayEndLimit) {
-				var slotEnd = t.plus({ minutes: duration });
-				if (slotEnd > dayEndLimit) break;
-				if (t > now) {
-					slots.push({ start: t, end: slotEnd });
+			if (useWeekdayHours) {
+				var wh =
+					weekdayHours[d.weekday] ||
+					weekdayHours[String(d.weekday)];
+				var windows = normalizeDayWindows(wh);
+				if (windows.length === 0) continue;
+				for (var w = 0; w < windows.length; w++) {
+					var win = windows[w];
+					if (!win || !win.start || !win.end) continue;
+					var ds = parseHm(win.start);
+					var de = parseHm(win.end);
+					pushSlotsInRange(slots, d, duration, ds, de, now, blockedStarts);
 				}
-				t = slotEnd;
+			} else {
+				if (!weekdays.has(d.weekday)) continue;
+				pushSlotsInRange(slots, d, duration, defaultStart, defaultEnd, now, blockedStarts);
 			}
 		}
 		return slots;
